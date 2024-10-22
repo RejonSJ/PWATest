@@ -9,7 +9,7 @@ class Videogames extends Model
     static $rules = [
     ];
 
-    protected $fillable = ['id','name','image','review','status'];
+    protected $fillable = ['id','name','image','review','status','created_at','updated_at'];
 }
 
 ?>
