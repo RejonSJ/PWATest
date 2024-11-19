@@ -198,6 +198,13 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    Notification.requestPermission().then(function(permission) {
+        if (permission === 'granted') {
+            console.log('Notification permission granted.');
+        } else {
+            console.log('Unable to get permission to notify.');
+        }
+    });
     const showNotification = (title, body) => {
         if (Notification.permission === "granted") {
             new Notification(title, {
@@ -206,24 +213,6 @@
             })
         }
     };
-    // if ('serviceWorker' in navigator && 'PushManager' in window) {
-    //     navigator.serviceWorker.register('/serviceworker.js').then(function (swReg) {
-    //         swReg.pushManager.subscribe({
-    //             userVisibleOnly: true,
-    //             applicationServerKey: 'VAPID_PUBLIC_KEY'
-    //         }).then(function (subscription) {
-    //             // Send subscription data to the backend
-    //             fetch('/push-subscribe', {
-    //                 method: 'POST',
-    //                 headers: {
-    //                     'Content-Type': 'application/json',
-    //                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-    //                 },
-    //                 body: JSON.stringify(subscription)
-    //             });
-    //         });
-    //     });
-    // }
     function editar(game){
         document.getElementById('id-modal-edit').value = game.id;
         document.getElementById('name-modal-edit').value = game.name;
