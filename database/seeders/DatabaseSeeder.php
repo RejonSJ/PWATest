@@ -93,6 +93,22 @@ class DatabaseSeeder extends Seeder
                 'status' => 0,
                 'created_at' => '2024-10-22 01:16:31',
                 'updated_at' => '2024-10-22 01:16:31'
+            ],
+            [
+                'name' => 'The Binding of Isaac: Rebirth',
+                'image' => 'https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/250900/header.jpg?t=1731977528',
+                'review' => 'positive',
+                'status' => 0,
+                'created_at' => '2024-10-22 01:16:31',
+                'updated_at' => '2024-10-22 01:16:31'
+            ],
+            [
+                'name' => 'Deadlock',
+                'image' => 'https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1422450/header.jpg?t=1731967596',
+                'review' => 'positive',
+                'status' => 0,
+                'created_at' => '2024-10-22 01:16:31',
+                'updated_at' => '2024-10-22 01:16:31'
             ]
         ];
 

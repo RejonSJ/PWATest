@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Inicio</title>
     <link rel="stylesheet" href="./css/app.css"/>
+    @laravelPWA
 </head>
 <body>
     <div class="container">
@@ -17,6 +18,34 @@
             </div>
         </div>
         <div class="d-grid gap-2 mt-3">
+            <form class="row" method="get" id="searchForm" action="{{route('/')}}" autocomplete="off">
+                @method('head')
+                @csrf
+                <div class="col-12 col-lg-6 mb-2">
+                    <input type="text" class="form-control" placeholder="Nombre del juego" name="name" value="{{$name}}">
+                </div>
+                <div class="col col-sm col-lg mb-2">
+                    <select class="form-select" name="review">
+                        <option value="" {{ $review == '' ? 'selected' : '' }}>Reseña</option>
+                        <option value="positive"  {{ $review == 'positive' ? 'selected' : '' }}>Positivo</option>
+                        <option value="negative"  {{ $review == 'negative' ? 'selected' : '' }}>Negativo</option>
+                    </select>
+                </div>
+                <div class="col col-sm col-lg mb-2">
+                    <select class="form-select" name="progress">
+                        <option value="" {{ $review == '' ? 'selected' : '' }}>Progreso</option>
+                        <option value="1" {{ $review == '1' ? 'selected' : '' }}>Completado</option>
+                        <option value="0" {{ $review == '0' ? 'selected' : '' }}>Sin completar</option>
+                    </select>
+                </div>
+                <div class="col-auto mb-2">
+                    <button class="btn btn-primary" type="submit">
+                        Buscar <i class="fa-solid fa-magnifying-glass fa-fw"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="d-grid gap-2">
             <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addGameModal">
                 Añadir juego <i class="fa-solid fa-circle-plus fa-fw"></i>
             </button>
@@ -186,6 +215,24 @@
 </script>
 @endif
 <script>
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+        navigator.serviceWorker.register('/serviceworker.js').then(function (swReg) {
+            swReg.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: 'VAPID_PUBLIC_KEY'
+            }).then(function (subscription) {
+                // Send subscription data to the backend
+                fetch('/push-subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify(subscription)
+                });
+            });
+        });
+    }
     function editar(game){
         document.getElementById('id-modal-edit').value = game.id;
         document.getElementById('name-modal-edit').value = game.name;

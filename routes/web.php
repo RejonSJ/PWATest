@@ -13,8 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('/');
 
 Route::post('creategame', [App\Http\Controllers\HomeController::class, 'creategame'])->name('creategame');
 Route::put('updategame', [App\Http\Controllers\HomeController::class, 'updategame'])->name('updategame');
 Route::post('deletegame', [App\Http\Controllers\HomeController::class, 'deletegame'])->name('deletegame');
+
+Route::post('/push-subscribe', [App\Http\Controllers\PushController::class, 'store']);

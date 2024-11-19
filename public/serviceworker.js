@@ -50,3 +50,14 @@ self.addEventListener("fetch", event => {
             })
     )
 });
+
+self.addEventListener('push', function (event) {
+    const options = {
+        body: event.data.text(),
+        icon: 'path/to/icon.png',
+    };
+
+    event.waitUntil(
+        self.registration.showNotification('Nuevo Notificación', options)
+    );
+});
