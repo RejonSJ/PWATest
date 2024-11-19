@@ -52,22 +52,6 @@ class HomeController extends Controller
 
         $videogame = Videogames::create(['name' => $name, 'image' => $image, 'review' => 'none', 'status' => 0]);
 
-        // Fetch all subscriptions
-        $subscriptions = DB::table('push_subscriptions')->get();
-
-        // Prepare the subscribers to notify
-        $notifiableSubscribers = $subscriptions->map(function ($subscription) {
-            return (object)[
-                'endpoint' => $subscription->endpoint,
-                'public_key' => $subscription->public_key,
-                'auth_token' => $subscription->auth_token,
-                'content_encoding' => $subscription->content_encoding,
-            ];
-        });
-
-        // Send notifications to all subscribers
-        Notification::send($notifiableSubscribers, new NewVideogameNotification($videogame));
-
         return redirect()->back()->with('success','Nueva entrada creada.');
     }
     public function updategame (Request $request){
