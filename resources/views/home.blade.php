@@ -197,42 +197,33 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-@if(Session::has('success'))
 <script>
-    Swal.fire({
-        position: 'top-end',
-        text: '{{$message = Session::get('success')}}',
-        icon: 'success',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        toast: true,
-        iconColor: 'white',
-        customClass: {
-            popup: 'colored-toast'
-        },
-    })
-</script>
-@endif
-<script>
-    if ('serviceWorker' in navigator && 'PushManager' in window) {
-        navigator.serviceWorker.register('/serviceworker.js').then(function (swReg) {
-            swReg.pushManager.subscribe({
-                userVisibleOnly: true,
-                applicationServerKey: 'VAPID_PUBLIC_KEY'
-            }).then(function (subscription) {
-                // Send subscription data to the backend
-                fetch('/push-subscribe', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                    },
-                    body: JSON.stringify(subscription)
-                });
-            });
-        });
-    }
+    const showNotification = (title, body) => {
+        if (Notification.permission === "granted") {
+            new Notification(title, {
+                body: body,
+                icon: "/icons/icon.png",
+            })
+        }
+    };
+    // if ('serviceWorker' in navigator && 'PushManager' in window) {
+    //     navigator.serviceWorker.register('/serviceworker.js').then(function (swReg) {
+    //         swReg.pushManager.subscribe({
+    //             userVisibleOnly: true,
+    //             applicationServerKey: 'VAPID_PUBLIC_KEY'
+    //         }).then(function (subscription) {
+    //             // Send subscription data to the backend
+    //             fetch('/push-subscribe', {
+    //                 method: 'POST',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+    //                 },
+    //                 body: JSON.stringify(subscription)
+    //             });
+    //         });
+    //     });
+    // }
     function editar(game){
         document.getElementById('id-modal-edit').value = game.id;
         document.getElementById('name-modal-edit').value = game.name;
@@ -247,3 +238,21 @@
         document.getElementById("deletegame").submit();
     }
 </script>
+@if(Session::has('success'))
+<script>
+    showNotification('Backlog', '{{$message = Session::get('success')}}');
+    // Swal.fire({
+    //     position: 'top-end',
+    //     text: '{{$message = Session::get('success')}}',
+    //     icon: 'success',
+    //     showConfirmButton: false,
+    //     timer: 3000,
+    //     timerProgressBar: true,
+    //     toast: true,
+    //     iconColor: 'white',
+    //     customClass: {
+    //         popup: 'colored-toast'
+    //     },
+    // })
+</script>
+@endif
